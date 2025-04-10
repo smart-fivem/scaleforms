@@ -1,0 +1,4 @@
+.replxx_history
+*.env
+*.cfg
+/cache/
