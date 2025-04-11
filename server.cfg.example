@@ -14,3 +14,4 @@ load_server_icon logo.png
 
 ensure sessionmanager
 ensure spawnmanager
+ensure multiplayer-chat

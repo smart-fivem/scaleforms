@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        position: relative;
+        min-height: 100vh;
+        margin: 0;
+        user-select: none;
+      }
+
+      #chat-input {
+        position: absolute;
+        top: -999px;
+        left: -999px;
+        width: 0px;
+        height: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="chat-input" type="text" value="" maxlength="128" autofocus />
+
+    <script>
+      const chatInputEl = document.querySelector("#chat-input");
+
+      window.addEventListener("message", (event) => {
+        if (event.data.type == "RESET") {
+          chatInputEl.value = "";
+          chatInputEl.focus();
+        }
+      });
+
+      chatInputEl.addEventListener("blur", (e) => {
+        chatInputEl.focus();
+      });
+
+      chatInputEl.addEventListener("keydown", (e) => {
+        if (e.metaKey || e.altKey || e.ctrlKey) {
+          e.preventDefault();
+          return;
+        }
+
+        if (!e.key) return;
+
+        const invalidKeys = ["~", "<", ">", "/", "\\"];
+
+        if (invalidKeys.includes(e.key)) {
+          e.preventDefault();
+          return;
+        }
+
+        send("onInputKeydown", { key: e.key });
+      });
+
+      chatInputEl.addEventListener("input", (e) => {
+        if (!e.data) return;
+
+        send("onInputInput", { data: e.data });
+      });
+
+      chatInputEl.addEventListener("keyup", (e) => {
+        if (!e.key) return;
+
+        send("onInputKeyup", {
+          key: e.key,
+          value: e.target.value,
+        });
+      });
+
+      function send(method, data) {
+        fetch(`https://${GetParentResourceName()}/${method}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(data),
+        }).catch(() => {});
+      }
+    </script>
+  </body>
+</html>
