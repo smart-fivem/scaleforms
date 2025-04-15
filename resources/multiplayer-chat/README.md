@@ -29,7 +29,8 @@ The MultiplayerChat class provides a complete interface for managing the chat sy
     - `playerName` (string) - Default player name (default: 'Unknown')
     - `playerColor` (number) - Default player color (default: 0)
   - Returns: A new MultiplayerChat instance
-  - Description: Initializes a new chat instance with the specified or default options
+  - Description: Initializes a new chat instance with the specified or default options.
+  - Note: All options except `sfName` can be modified after initialization.
 
 - `Load()`
   - Description: Loads the required scaleform movie for the chat interface. Must be called before using other methods.
